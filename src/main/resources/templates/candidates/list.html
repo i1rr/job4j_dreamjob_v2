@@ -22,6 +22,7 @@
                     <a class="nav-item nav-link" th:href="@{/vacancies}">Jobs</a>
                     <a class="nav-item nav-link active" th:href="@{/candidates}">Candidates</a>
                     <a class="nav-item nav-link" th:href="@{/vacancies/create}">Create a job</a>
+                    <a class="nav-item nav-link" th:href="@{/candidates/create}">Create a candidate</a>
                 </div>
             </div>
         </div>
@@ -33,7 +34,6 @@
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Name</th>
-                    <th scope="col">Position</th>
                     <th scope="col">Application date</th>
                 </tr>
                 </thead>
@@ -41,7 +41,6 @@
                 <tr th:each="candidate: ${candidates}">
                     <td th:text="${candidate.id}"></td>
                     <td th:text="${candidate.name}"></td>
-                    <td th:text="${candidate.description}"></td>
                     <td th:text="${candidate.creationDate}"></td>
                 </tr>
                 </tbody>
