@@ -16,6 +16,6 @@ public class VacancyController {
     @GetMapping
     public String getAll(Model model) {
         model.addAttribute("vacancies", vacancyRepository.findAll());
-        return "list";
+        return "vacancies/list";
     }
 }
