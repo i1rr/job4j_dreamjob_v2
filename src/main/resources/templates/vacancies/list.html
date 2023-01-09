@@ -21,6 +21,7 @@
                     <a class="nav-item nav-link" href="/">Home</a>
                     <a class="nav-item nav-link active" th:href="@{/vacancies}">Jobs</a>
                     <a class="nav-item nav-link" th:href="@{/candidates}">Candidates</a>
+                    <a class="nav-item nav-link" th:href="@{/vacancies/create}">Create a job</a>
                 </div>
             </div>
         </div>
@@ -40,7 +41,6 @@
                 <tr th:each="vacancy: ${vacancies}">
                     <td th:text="${vacancy.id}"></td>
                     <td th:text="${vacancy.title}"></td>
-                    <td th:text="${vacancy.description}"></td>
                     <td th:text="${vacancy.creationDate}"></td>
                 </tr>
                 </tbody>
