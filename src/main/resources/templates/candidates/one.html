@@ -9,7 +9,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
 
-    <title>Candidate list</title>
+    <title>Job editing</title>
 </head>
 <body>
 <div class="container-fluid p-0">
@@ -20,7 +20,7 @@
                 <div class="navbar-nav">
                     <a class="nav-item nav-link" href="/">Home</a>
                     <a class="nav-item nav-link" th:href="@{/vacancies}">Jobs</a>
-                    <a class="nav-item nav-link active" th:href="@{/candidates}">Candidates</a>
+                    <a class="nav-item nav-link" th:href="@{/candidates}">Candidates</a>
                     <a class="nav-item nav-link" th:href="@{/vacancies/create}">Create a job</a>
                     <a class="nav-item nav-link" th:href="@{/candidates/create}">Create a candidate</a>
                 </div>
@@ -28,24 +28,27 @@
         </div>
     </nav>
     <div class="container">
-        <div class="row">
-            <table class="table">
-                <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Application date</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="candidate: ${candidates}">
-                    <td th:text="${candidate.id}"></td>
-                    <td><a th:text="${candidate.name}" th:href="@{/candidates/{candidateId}(candidateId=${candidate.id})}"></a></td>
-                    <td th:text="${candidate.creationDate}"></td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
+        <form class="mt-3" th:action="@{/candidates/update}" method="post" th:object="${candidate}">
+            <input type="hidden" name="id" th:field="*{id}">
+            <div class="mb-3">
+                <label for="name" class="form-label"><b>Name</b></label>
+                <input type="text" class="form-control" id="name" name="name" th:field="*{name}" placeholder="e.g. Senior Java Developer with 10 years experience">
+            </div>
+            <div class="mb-3">
+                <label for="description" class="form-label"><b>Description</b></label>
+                <textarea class="form-control" id="description" name="description" th:field="*{description}" rows="25" placeholder="Write your experience here..."></textarea>
+            </div>
+            <div class="mb-3 row">
+                <div class="col-6"></div>
+                <div class="col-6">
+                    <div class="row">
+                        <div class="col-4"><a class="btn btn-light w-100" th:href="@{/candidates}">Cancel</a></div>
+                        <div class="col-4"><a class="btn btn-danger w-100" th:href="@{/candidates/delete/{id}(id=${candidate.id})}">Delete</a></div>
+                        <div class="col-4"><button class="btn btn-success w-100" type="submit">Update</button></div>
+                    </div>
+                </div>
+            </div>
+        </form>
     </div>
 </div>
 </body>

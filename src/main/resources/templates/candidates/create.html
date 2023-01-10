@@ -28,14 +28,14 @@
         </div>
     </nav>
     <div class="container">
-        <form class="mt-3">
+        <form class="mt-3" th:action="@{/candidates/create}" method="post">
             <div class="mb-3">
-                <label for="title" class="form-label"><b>Title</b></label>
-                <input type="text" class="form-control" id="title" placeholder="e.g. Senior Java Developer with 10 years experience">
+                <label for="name" class="form-label"><b>Title</b></label>
+                <input type="text" class="form-control" id="name" name="name" placeholder="e.g. Senior Java Developer with 10 years experience">
             </div>
             <div class="mb-3">
                 <label for="description" class="form-label"><b>Description</b></label>
-                <textarea class="form-control" id="description" rows="25" placeholder="Your resume"></textarea>
+                <textarea class="form-control" id="description" name="description" rows="25" placeholder="Write your experience here..."></textarea>
             </div>
             <div class="mb-3 row">
                 <div class="col-6"></div>
