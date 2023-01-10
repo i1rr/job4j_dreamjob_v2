@@ -11,7 +11,11 @@ import ru.job4j.dreamjob.service.SimpleCandidateService;
 @RequestMapping("/candidates")
 public class CandidateController {
 
-    private final CandidateService candidateService = SimpleCandidateService.getInstance();
+    private final CandidateService candidateService;
+
+    public CandidateController(SimpleCandidateService candidateService) {
+        this.candidateService = candidateService;
+    }
 
     @GetMapping("/{id}")
     public String getById(Model model, @PathVariable int id) {

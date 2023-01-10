@@ -11,7 +11,11 @@ import ru.job4j.dreamjob.service.VacancyService;
 @RequestMapping("/vacancies") /* Работать с кандидатами будем по URI /vacancies/** */
 public class VacancyController {
 
-    private final VacancyService vacancyService = SimpleVacancyService.getInstance();
+    private final VacancyService vacancyService;
+
+    public VacancyController(SimpleVacancyService vacancyService) {
+        this.vacancyService = vacancyService;
+    }
 
     @GetMapping("/{id}")
     public String getById(Model model, @PathVariable int id) {
