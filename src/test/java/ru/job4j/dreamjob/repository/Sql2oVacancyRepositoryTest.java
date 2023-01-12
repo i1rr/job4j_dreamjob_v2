@@ -42,7 +42,7 @@ class Sql2oVacancyRepositoryTest {
         sql2oVacancyRepository = new Sql2oVacancyRepository(sql2o);
         sql2oFileRepository = new Sql2oFileRepository(sql2o);
 
-        //As Vacancy depends on File, we need to create a File first
+        /**As Vacancy depends on File, we need to create a File first*/
         file = new File("test", "test");
         sql2oFileRepository.save(file);
     }
