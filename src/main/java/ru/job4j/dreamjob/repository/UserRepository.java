@@ -14,4 +14,6 @@ public interface UserRepository {
     Collection<User> findAll();
 
     boolean deleteById(int id);
+
+    Optional<User> findByEmail(String email);
 }

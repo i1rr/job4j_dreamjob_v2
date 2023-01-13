@@ -43,7 +43,11 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public String register(@ModelAttribute User user) {
+    public String register(@ModelAttribute User user, Model model) {
+        if (userService.findUserByEmail(user.getEmail()).isPresent()) {
+            model.addAttribute("message", "User with this email already exists");
+            return "errors/404";
+        }
         userService.save(user);
         return "redirect:/vacancies";
     }
