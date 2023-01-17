@@ -26,8 +26,7 @@ public class UserController {
     }
 
     @GetMapping("/login")
-    public String getLoginPage(Model model, HttpSession session) {
-        model.addAttribute("user", User.validate(session));
+    public String getLoginPage() {
         return "users/login";
     }
 
@@ -37,9 +36,8 @@ public class UserController {
         return "redirect:/users/login";
     }
 
-    @GetMapping()
-    public String getRegistrationPage(Model model, HttpSession session) {
-        model.addAttribute("user", User.validate(session));
+    @GetMapping("/register")
+    public String getRegistrationPage() {
         return "users/registration";
     }
 
