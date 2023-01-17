@@ -11,6 +11,9 @@ import ru.job4j.dreamjob.model.User;
 import ru.job4j.dreamjob.service.SimpleUserService;
 import ru.job4j.dreamjob.service.UserService;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 @ThreadSafe
 @Controller
 @RequestMapping("/users")
@@ -23,22 +26,32 @@ public class UserController {
     }
 
     @GetMapping("/login")
-    public String getLoginPage() {
+    public String getLoginPage(Model model, HttpSession session) {
+        model.addAttribute("user", User.validate(session));
         return "users/login";
     }
 
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate();
+        return "redirect:/users/login";
+    }
+
     @GetMapping()
-    public String getRegistrationPage() {
+    public String getRegistrationPage(Model model, HttpSession session) {
+        model.addAttribute("user", User.validate(session));
         return "users/registration";
     }
 
     @PostMapping("/login")
-    public String loginUser(@ModelAttribute User user, Model model) {
+    public String loginUser(@ModelAttribute User user, Model model, HttpServletRequest request) {
         var userOptional = userService.findByEmailAndPassword(user.getEmail(), user.getPassword());
         if (userOptional.isEmpty()) {
             model.addAttribute("error", "Invalid email or password");
             return "users/login";
         }
+        var session = request.getSession();
+        session.setAttribute("user", userOptional.get());
         return "redirect:/vacancies";
     }
 

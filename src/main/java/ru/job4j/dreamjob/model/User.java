@@ -1,5 +1,6 @@
 package ru.job4j.dreamjob.model;
 
+import javax.servlet.http.HttpSession;
 import java.util.Objects;
 
 public class User {
@@ -9,7 +10,6 @@ public class User {
     private String password;
 
     public User() {
-
     }
 
     public User(String email, String name, String password) {
@@ -65,5 +65,14 @@ public class User {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    public static User validate(HttpSession session) {
+        var user = (User) session.getAttribute("user");
+        if (user == null) {
+            user = new User();
+            user.setName("Guest");
+        }
+        return user;
     }
 }
