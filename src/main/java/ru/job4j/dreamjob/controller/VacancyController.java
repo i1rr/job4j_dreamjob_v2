@@ -6,13 +6,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.job4j.dreamjob.dto.FileDto;
-import ru.job4j.dreamjob.model.User;
 import ru.job4j.dreamjob.model.Vacancy;
 import ru.job4j.dreamjob.service.CityService;
-import ru.job4j.dreamjob.service.SimpleVacancyService;
 import ru.job4j.dreamjob.service.VacancyService;
 
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @ThreadSafe
@@ -24,34 +21,31 @@ public class VacancyController {
 
     private final CityService cityService;
 
-    public VacancyController(SimpleVacancyService vacancyService, CityService cityService) {
+    public VacancyController(VacancyService vacancyService, CityService cityService) {
         this.vacancyService = vacancyService;
         this.cityService = cityService;
     }
 
     @GetMapping("/{id}")
-    public String getById(Model model, @PathVariable int id, HttpSession session) {
+    public String getById(Model model, @PathVariable int id) {
         var vacancyOptional = vacancyService.findById(id);
         if (vacancyOptional.isEmpty()) {
             model.addAttribute("message", "Vacancy with id " + id + " not found");
             return "errors/404";
         }
-        model.addAttribute("user", User.validate(session));
         model.addAttribute("cities", cityService.findAll());
         model.addAttribute("vacancy", vacancyOptional.get());
         return "vacancies/one";
     }
 
     @GetMapping
-    public String getAll(Model model, HttpSession session) {
-        model.addAttribute("user", User.validate(session));
+    public String getAll(Model model) {
         model.addAttribute("vacancies", vacancyService.findAll());
         return "vacancies/list";
     }
 
     @GetMapping("/create")
-    public String getCreationPage(Model model, HttpSession session) {
-        model.addAttribute("user", User.validate(session));
+    public String getCreationPage(Model model) {
         model.addAttribute("cities", cityService.findAll());
         return "vacancies/create";
     }
@@ -71,7 +65,7 @@ public class VacancyController {
         try {
             vacancyService.save(vacancy, new FileDto(file.getOriginalFilename(), file.getBytes()));
             return "redirect:/vacancies";
-        } catch (IOException e) {
+        } catch (IOException | RuntimeException e) {
             model.addAttribute("message", e.getMessage());
             return "errors/404";
         }
